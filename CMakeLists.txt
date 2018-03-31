@@ -141,14 +141,15 @@ endif()
 
 include_directories( ${CMAKE_SFCGAL_BINARY_DIR}/include )
 
+# Эти патчи уже устарели для версии 4.11, к тому же в рамках модульной сборки эти изменения можно внести напрямую
 # For CGAL versions < 4.3, we add a local directory that contains some tweaked include files from unreleased versions
 # They will overwrite files from the CGAL installation
-if( "${CGAL_VERSION}" VERSION_LESS "4.3" )
-  include_directories( patches/CGAL-4.2 )
-elseif( "${CGAL_VERSION}" VERSION_LESS "4.10")
-  include_directories( patches/CGAL-4.3 )
-  add_definitions( "-DCGAL_INTERSECTION_VERSION=1" )
-endif()
+#if( "${CGAL_VERSION}" VERSION_LESS "4.3" )
+#  include_directories( patches/CGAL-4.2 )
+#elseif( "${CGAL_VERSION}" VERSION_LESS "4.10")
+#  include_directories( patches/CGAL-4.3 )
+#  add_definitions( "-DCGAL_INTERSECTION_VERSION=1" )
+#endif()
 
 #-- note that SYSTEM turns -I/path to -isystem and avoid warnings in CGAL and Boost
 message("CGAL INCL DIR ${CGAL_INCLUDE_DIRS}")
