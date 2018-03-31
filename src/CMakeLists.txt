@@ -1,41 +1,42 @@
 file( GLOB_RECURSE SFCGAL_SOURCES "*.cpp" )
 file( GLOB_RECURSE SFCGAL_HEADERS "*.h" )
 
-file( GLOB_RECURSE SFCGAL_HEADERS_COPIED RELATIVE ${CMAKE_SOURCE_DIR}/src "*.h" )
+file( GLOB_RECURSE SFCGAL_HEADERS_COPIED RELATIVE ${CMAKE_SFCGAL_SOURCE_DIR}/src "*.h" )
 add_custom_target(copy)
 foreach (header ${SFCGAL_HEADERS_COPIED})
     add_custom_command(TARGET copy
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/src/${header} ${CMAKE_BINARY_DIR}/include/SFCGAL/${header} DEPENDS ${CMAKE_SOURCE_DIR}/src/${header})
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SFCGAL_SOURCE_DIR}/src/${header} ${CMAKE_SFCGAL_BINARY_DIR}/include/SFCGAL/${header} DEPENDS ${CMAKE_SFCGAL_SOURCE_DIR}/src/${header})
 endforeach()
 
 set( SFCGAL_OSG_HEADERS
-  ${CMAKE_SOURCE_DIR}/src/io/osg.h
-  ${CMAKE_SOURCE_DIR}/src/detail/io/OsgFactory.h )
+  ${CMAKE_SFCGAL_SOURCE_DIR}/src/io/osg.h
+  ${CMAKE_SFCGAL_SOURCE_DIR}/src/detail/io/OsgFactory.h )
 set( SFCGAL_OSG_SOURCES
-  ${CMAKE_SOURCE_DIR}/src/io/osg.cpp
-  ${CMAKE_SOURCE_DIR}/src/detail/io/OsgFactory.cpp )
+  ${CMAKE_SFCGAL_SOURCE_DIR}/src/io/osg.cpp
+  ${CMAKE_SFCGAL_SOURCE_DIR}/src/detail/io/OsgFactory.cpp )
 message( STATUS "removing OSG dependencies from the library")
 list(REMOVE_ITEM SFCGAL_HEADERS ${SFCGAL_OSG_HEADERS})
 list(REMOVE_ITEM SFCGAL_SOURCES ${SFCGAL_OSG_SOURCES})
 
-if( SFCGAL_USE_STATIC_LIBS )
-  add_definitions( "-fPIC" )
-  add_library(
-    SFCGAL
-    ${SFCGAL_HEADERS}
-    ${SFCGAL_SOURCES}
-    )
+# Используем статическую линковку
+#if( SFCGAL_USE_STATIC_LIBS )
+add_definitions( "-fPIC" )
+add_library(
+	SFCGAL
+	${SFCGAL_HEADERS}
+	${SFCGAL_SOURCES}
+)
 
-else()
-  add_definitions( "-DSFCGAL_BUILD_SHARED" )
-  add_library(
-    SFCGAL SHARED
-    ${SFCGAL_HEADERS}
-    ${SFCGAL_SOURCES}
-    )
-endif()
+#else()
+#  add_definitions( "-DSFCGAL_BUILD_SHARED" )
+#  add_library(
+#    SFCGAL SHARED
+#    ${SFCGAL_HEADERS}
+#    ${SFCGAL_SOURCES}
+#    )
+#endif()
 
-add_dependencies( SFCGAL copy )
+add_dependencies( SFCGAL copy CGAL)
 
 # set VERSION and SOVERSION
 set_target_properties( SFCGAL PROPERTIES VERSION ${SFCGAL_VERSION}

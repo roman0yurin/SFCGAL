@@ -1,7 +1,18 @@
 cmake_minimum_required( VERSION 2.8 )
 project( SFCGAL )
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_C_STANDARD 11)
+
+#Папки для сборки модуля
+set(CMAKE_SFCGAL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_SFCGAL_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 set( CMAKE_DEBUG_POSTFIX "d" )
+get_property(CGAL_INCLUDE_DIRS GLOBAL PROPERTY CGAL_INCLUDE_DIRS)
+
 
 #----------------------------------------------------------------------------
 # build options
@@ -21,7 +32,7 @@ option( SFCGAL_BUILD_BENCH "Build benchmarks" OFF )
 option( SFCGAL_WITH_OSG "Compile with OpenSceneGraph support" OFF )
 
 #-- include finders and co
-set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules;${CMAKE_MODULE_PATH}" )
+set( CMAKE_MODULE_PATH "${CMAKE_SFCGAL_SOURCE_DIR}/cmake/Modules;${CMAKE_MODULE_PATH}" )
 
 set( SFCGAL_VERSION_MAJOR 1 )
 set( SFCGAL_VERSION_MINOR 3 )
@@ -124,11 +135,11 @@ option( CGAL_USE_AUTOLINK "disable CGAL autolink" OFF )
 if( ${CGAL_USE_AUTOLINK} )
 	add_definitions( "-DCGAL_NO_AUTOLINK" )
 endif()
+#В нашем случае CGAL это модуль
+#find_package( CGAL 4.3 COMPONENTS Core REQUIRED )
+#message( STATUS "CGAL ${CGAL_VERSION} found" )
 
-find_package( CGAL 4.3 COMPONENTS Core REQUIRED )
-message( STATUS "CGAL ${CGAL_VERSION} found" )
-
-include_directories( ${CMAKE_BINARY_DIR}/include )
+include_directories( ${CMAKE_SFCGAL_BINARY_DIR}/include )
 
 # For CGAL versions < 4.3, we add a local directory that contains some tweaked include files from unreleased versions
 # They will overwrite files from the CGAL installation
@@ -140,7 +151,8 @@ elseif( "${CGAL_VERSION}" VERSION_LESS "4.10")
 endif()
 
 #-- note that SYSTEM turns -I/path to -isystem and avoid warnings in CGAL and Boost
-include_directories( SYSTEM 
+message("CGAL INCL DIR ${CGAL_INCLUDE_DIRS}")
+include_directories( SYSTEM
 	${CGAL_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}	
 	${MPFR_INCLUDE_DIRS}	
@@ -165,7 +177,7 @@ if(MSVC)
 	endif()
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 	# Update if necessary
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-long-long -pedantic -Wpointer-arith -Wcast-align -Wcast-qual -Wno-overloaded-virtual -Wformat=2 -Winit-self -Wmissing-include-dirs -Wwrite-strings -Wno-error=undef")#-Wfloat-equal -Wconversion -Wshadow 
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-long-long -pedantic -Wpointer-arith -Wcast-align -Wcast-qual -Wno-overloaded-virtual -Wformat=2 -Winit-self -Wmissing-include-dirs -Wwrite-strings -Wno-error=undef -Wno-deprecated -Wno-missing-include-dirs")#-Wfloat-equal -Wconversion -Wshadow
     if( SFCGAL_WARNING_AS_ERROR )
 		 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wno-error=format")
 	endif()
@@ -207,8 +219,8 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 #SET(CMAKE_MACOSX_RPATH ON)
 
 #-- generate library headers
-configure_file( ${CMAKE_SOURCE_DIR}/src/config.h.cmake include/SFCGAL/config.h )
-configure_file( ${CMAKE_SOURCE_DIR}/src/version.h.cmake include/SFCGAL/version.h )
+configure_file( ${CMAKE_SFCGAL_SOURCE_DIR}/src/config.h.cmake include/SFCGAL/config.h )
+configure_file( ${CMAKE_SFCGAL_SOURCE_DIR}/src/version.h.cmake include/SFCGAL/version.h )
 
 enable_testing()
 
@@ -230,7 +242,7 @@ endif()
 add_subdirectory( doc )
 
 #-- install directories
-install(DIRECTORY ${CMAKE_BINARY_DIR}/include DESTINATION .)
+install(DIRECTORY ${CMAKE_SFCGAL_BINARY_DIR}/include DESTINATION .)
 
 
 #-- create a libtool file for SFCGAL (needed by PostGIS)

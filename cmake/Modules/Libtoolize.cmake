@@ -6,6 +6,7 @@ MACRO(GET_TARGET_PROPERTY_WITH_DEFAULT _variable _target _property _default_valu
  ENDMACRO (GET_TARGET_PROPERTY_WITH_DEFAULT)
 
  MACRO(CREATE_LIBTOOL_FILE _target _install_DIR)
+   cmake_policy(SET CMP0026 OLD) #В новой версии запрещено использовать LOCATION
    GET_TARGET_PROPERTY(_target_location ${_target} LOCATION)
    GET_TARGET_PROPERTY_WITH_DEFAULT(_target_static_lib ${_target} STATIC_LIB "")
    GET_TARGET_PROPERTY_WITH_DEFAULT(_target_dependency_libs ${_target} LT_DEPENDENCY_LIBS "")

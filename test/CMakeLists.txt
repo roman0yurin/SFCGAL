@@ -1,5 +1,5 @@
 #-- configure tests
-set( SFCGAL_TEST_DIRECTORY "${CMAKE_SOURCE_DIR}/test" )
+set( SFCGAL_TEST_DIRECTORY "${CMAKE_SFCGAL_SOURCE_DIR}/test" )
 configure_file( ${SFCGAL_TEST_DIRECTORY}/test_config.h.cmake ${SFCGAL_TEST_DIRECTORY}/test_config.h )
 
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -19,4 +19,4 @@ if( SFCGAL_BUILD_BENCH )
 endif()
 
 # add a custom rule "check" that adds verbosity to ctest
-add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
+add_custom_target(checkSfcgal COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
