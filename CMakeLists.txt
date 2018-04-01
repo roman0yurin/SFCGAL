@@ -138,9 +138,9 @@ endif()
 #В нашем случае CGAL это модуль
 #find_package( CGAL 4.3 COMPONENTS Core REQUIRED )
 #message( STATUS "CGAL ${CGAL_VERSION} found" )
-
-include_directories( ${CMAKE_SFCGAL_BINARY_DIR}/include )
-
+set(SFCGAL_INCLUDE_DIRS ${CMAKE_SFCGAL_BINARY_DIR}/include)
+include_directories( ${SFCGAL_INCLUDE_DIRS} )
+set_property(GLOBAL PROPERTY SFCGAL_INCLUDE_DIRS "${SFCGAL_INCLUDE_DIRS}")
 # Эти патчи уже устарели для версии 4.11, к тому же в рамках модульной сборки эти изменения можно внести напрямую
 # For CGAL versions < 4.3, we add a local directory that contains some tweaked include files from unreleased versions
 # They will overwrite files from the CGAL installation
