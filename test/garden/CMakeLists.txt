@@ -5,7 +5,7 @@ set( REGRESS_NAME garden-test-SFCGAL )
 add_executable( ${REGRESS_NAME} ${SFCGAL_REGRESS_GARDEN_TEST_SOURCES} )
 
 target_link_libraries( ${REGRESS_NAME}
-	SFCGAL
+	sfcgal
 	${Boost_LIBRARIES}
 	${CGAL_LIBRARIES}
 )

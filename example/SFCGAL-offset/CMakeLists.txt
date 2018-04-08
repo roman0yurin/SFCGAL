@@ -3,7 +3,7 @@ add_executable( example-${EXAMPLE_NAME}
 	main.cpp 
 )
 target_link_libraries( example-${EXAMPLE_NAME} 
-	SFCGAL
+	sfcgal
 	${CGAL_LIBRARIES}
 	${MPFR_LIBRARIES} 
 	${GMP_LIBRARIES}

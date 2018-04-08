@@ -2,7 +2,7 @@
 file( GLOB_RECURSE SFCGAL_UNIT_TEST_SOURCES *.cpp )
 add_executable( unit-test-SFCGAL ${SFCGAL_UNIT_TEST_SOURCES} )
 target_link_libraries( unit-test-SFCGAL 
-	SFCGAL
+	sfcgal
 	${Boost_LIBRARIES}
 	${CGAL_LIBRARIES}
 )

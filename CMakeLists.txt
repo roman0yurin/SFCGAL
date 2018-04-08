@@ -1,5 +1,5 @@
 cmake_minimum_required( VERSION 2.8 )
-project( SFCGAL )
+project( sfcgal C CXX )
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -9,6 +9,7 @@ set(CMAKE_C_STANDARD 11)
 #Папки для сборки модуля
 set(CMAKE_SFCGAL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_SFCGAL_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+set(SFCGAL_USE_STATIC_LIBS true)
 
 set( CMAKE_DEBUG_POSTFIX "d" )
 get_property(CGAL_INCLUDE_DIRS GLOBAL PROPERTY CGAL_INCLUDE_DIRS)
@@ -152,7 +153,6 @@ set_property(GLOBAL PROPERTY SFCGAL_INCLUDE_DIRS "${SFCGAL_INCLUDE_DIRS}")
 #endif()
 
 #-- note that SYSTEM turns -I/path to -isystem and avoid warnings in CGAL and Boost
-message("CGAL INCL DIR ${CGAL_INCLUDE_DIRS}")
 include_directories( SYSTEM
 	${CGAL_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}	
@@ -225,9 +225,6 @@ configure_file( ${CMAKE_SFCGAL_SOURCE_DIR}/src/version.h.cmake include/SFCGAL/ve
 
 enable_testing()
 
-#note : not available on windows without export/import
-OPTION( SFCGAL_USE_STATIC_LIBS "define if SFCGAL is build as a static library" OFF )
-
 #-- build the library
 add_subdirectory( src )
 
@@ -246,14 +243,14 @@ add_subdirectory( doc )
 install(DIRECTORY ${CMAKE_SFCGAL_BINARY_DIR}/include DESTINATION .)
 
 
-#-- create a libtool file for SFCGAL (needed by PostGIS)
-create_libtool_file( SFCGAL /lib )
+#-- create a libtool file for sfcgal (needed by PostGIS)
+create_libtool_file( sfcgal /lib )
 
 #-- sfcgal-config
 if ( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
   set( SFCGAL_LIB_NAME "SFCGAL${CMAKE_DEBUG_POSTFIX}" )
 else()
-  set( SFCGAL_LIB_NAME "SFCGAL" )
+  set( SFCGAL_LIB_NAME "sfcgal" )
 endif()
 #set( SFCGAL_LIB_NAME ${${CMAKE_BUILD_TYPE}
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sfcgal-config.in ${CMAKE_CURRENT_BINARY_DIR}/sfcgal-config @ONLY)
