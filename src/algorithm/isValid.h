@@ -32,9 +32,13 @@ namespace SFCGAL {
  * Functions used to assert for geometry validity
  * @note exception message is apparently limited in length, thus print the reason for invalidity before its text representation (that can be very long)
  */
+//Функции ASSERT_... выполняются только в режиме отладки
 void SFCGAL_API SFCGAL_ASSERT_GEOMETRY_VALIDITY( const Geometry& g );
+void assertGeometry(const Geometry& g);
 void SFCGAL_API SFCGAL_ASSERT_GEOMETRY_VALIDITY_2D( const Geometry& g );
+void assertGeometry2D(const Geometry& g);
 void SFCGAL_API SFCGAL_ASSERT_GEOMETRY_VALIDITY_3D( const Geometry& g );
+void assertGeometry3D(const Geometry& g);
 void SFCGAL_API SFCGAL_ASSERT_GEOMETRY_VALIDITY_ON_PLANE( const Geometry& g );
 
 namespace algorithm {

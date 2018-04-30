@@ -73,41 +73,61 @@ void SFCGAL_ASSERT_GEOMETRY_VALIDITY_( const Geometry& g, const std::string& ctx
     }
 }
 
+
+void assertGeometry(const Geometry& g){
+	#ifdef DEBUG
+		SFCGAL_ASSERT_GEOMETRY_VALIDITY_(g,"");
+	#endif
+}
+
 void SFCGAL_ASSERT_GEOMETRY_VALIDITY( const Geometry& g )
 {
-    SFCGAL_ASSERT_GEOMETRY_VALIDITY_(g,"");
+	assertGeometry(g);
 }
+
+void assertGeometry2D(const Geometry& g){
+	if ( !(g).hasValidityFlag() )
+	{
+		using namespace SFCGAL;
+		if ( (g).is3D() ) {
+			std::auto_ptr<SFCGAL::Geometry> sfcgalAssertGeometryValidityClone( (g).clone() );
+			algorithm::force2D( *sfcgalAssertGeometryValidityClone );
+			SFCGAL_ASSERT_GEOMETRY_VALIDITY_( (*sfcgalAssertGeometryValidityClone), "When converting to 2D - " );
+		}
+		else {
+			SFCGAL_ASSERT_GEOMETRY_VALIDITY( g );
+		}
+	}
+}
+
 
 void SFCGAL_ASSERT_GEOMETRY_VALIDITY_2D( const Geometry& g )
 {
-    if ( !(g).hasValidityFlag() )
-    {
-        using namespace SFCGAL;
-        if ( (g).is3D() ) {
-            std::auto_ptr<SFCGAL::Geometry> sfcgalAssertGeometryValidityClone( (g).clone() );
-            algorithm::force2D( *sfcgalAssertGeometryValidityClone );
-            SFCGAL_ASSERT_GEOMETRY_VALIDITY_( (*sfcgalAssertGeometryValidityClone), "When converting to 2D - " );
-        }
-        else {
-            SFCGAL_ASSERT_GEOMETRY_VALIDITY( g );
-        }
-    }
+	#ifdef DEBUG
+		assertGeometry2D(g);
+	#endif
+}
+
+void assertGeometry3D(const Geometry& g){
+	if ( !(g).hasValidityFlag() )
+	{
+		using namespace SFCGAL;
+		if ( !(g).is3D() ) {
+			std::auto_ptr<Geometry> sfcgalAssertGeometryValidityClone( (g).clone() );
+			algorithm::force3D( *sfcgalAssertGeometryValidityClone );
+			SFCGAL_ASSERT_GEOMETRY_VALIDITY_( (*sfcgalAssertGeometryValidityClone), "When converting to 3D - " );
+		}
+		else {
+			SFCGAL_ASSERT_GEOMETRY_VALIDITY( g );
+		}
+	}
 }
 
 void SFCGAL_ASSERT_GEOMETRY_VALIDITY_3D( const Geometry& g )
 {
-    if ( !(g).hasValidityFlag() )
-    {
-        using namespace SFCGAL;
-        if ( !(g).is3D() ) {
-            std::auto_ptr<Geometry> sfcgalAssertGeometryValidityClone( (g).clone() );
-            algorithm::force3D( *sfcgalAssertGeometryValidityClone );
-            SFCGAL_ASSERT_GEOMETRY_VALIDITY_( (*sfcgalAssertGeometryValidityClone), "When converting to 3D - " );
-        }
-        else {
-            SFCGAL_ASSERT_GEOMETRY_VALIDITY( g );
-        }
-    }
+	#ifdef DEBUG
+		assertGeometry3D(g);
+	#endif
 }
 
 void SFCGAL_ASSERT_GEOMETRY_VALIDITY_ON_PLANE( const Geometry& /*g*/ )
