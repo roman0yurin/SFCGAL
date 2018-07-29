@@ -1,4 +1,5 @@
 /**
+/**
  *   SFCGAL
  *
  *   Copyright (C) 2012-2013 Oslandia <infos@oslandia.com>
@@ -33,7 +34,7 @@ namespace detail {
  */
 struct SFCGAL_API ComplexComparator {
     template < typename T >
-    inline bool operator () ( const std::complex< T >& a, const std::complex< T >& b ) {
+    inline bool operator () ( const std::complex< T >& a, const std::complex< T >& b ) const {
         return ( a.real() < b.real() ) || ( a.real() == b.real() && a.imag() < b.imag() );
     }
 };

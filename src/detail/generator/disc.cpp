@@ -19,8 +19,8 @@
  */
 
 
-#ifdef _MSC_VER
-#  define _USE_MATH_DEFINES
+#if defined(_MSC_VER) || defined(__MINGW32__)
+    #define _USE_MATH_DEFINES
 #endif
 
 #include <SFCGAL/detail/generator/disc.h>

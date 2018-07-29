@@ -39,7 +39,7 @@ namespace algorithm {
  * @ingroup detail
  */
 
-class SFCGAL_API SurfaceGraph : boost::noncopyable {
+class SurfaceGraph : boost::noncopyable {
 public:
     typedef size_t VertexIndex;
     typedef size_t FaceIndex;

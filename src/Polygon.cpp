@@ -264,7 +264,7 @@ CGAL::Polygon_with_holes_2<Kernel> Polygon::toPolygon_with_holes_2( bool fixOrie
         // note that the orientation is fixed here to avoid double reverse for interior rings
         CGAL::Polygon_2<Kernel> inner = interiorRingN( i ).toPolygon_2( false );
 
-        if ( fixOrientation && inner.orientation() == CGAL::COUNTERCLOCKWISE ) {
+        if ( fixOrientation && (inner.orientation() == CGAL::COUNTERCLOCKWISE) ) {
             inner.reverse_orientation();
         }
 

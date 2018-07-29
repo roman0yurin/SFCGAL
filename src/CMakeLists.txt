@@ -41,7 +41,7 @@ add_dependencies( sfcgal copy CGAL)
 set_target_properties( sfcgal PROPERTIES VERSION ${SFCGAL_VERSION}
                                          SOVERSION ${SFCGAL_VERSION_MAJOR} )
 
-target_link_libraries( sfcgal ${CGAL_LIBRARIES} CGAL_ImageIO)
+target_link_libraries( sfcgal ${CGAL_LIBRARIES} CGAL_Core CGAL_ImageIO CGAL)
 if( ${SFCGAL_WITH_MPFR} )
 	target_link_libraries( sfcgal ${MPFR_LIBRARIES} )
 endif( ${SFCGAL_WITH_MPFR} )
@@ -50,6 +50,7 @@ if( ${SFCGAL_WITH_GMP} )
 	target_link_libraries( sfcgal ${GMP_LIBRARIES} )
 endif( ${SFCGAL_WITH_GMP} )
 
+message("================== SFCGAL Boost_LIBRARIES ${Boost_LIBRARIES} Boost_VERSION ${Boost_VERSION}")
 target_link_libraries( sfcgal ${Boost_LIBRARIES} )
 
 if ( ${Use_precompiled_headers} )

@@ -244,7 +244,7 @@ CGAL::Polygon_2< Kernel > LineString::toPolygon_2( bool fixOrientation ) const
 
     CGAL::Polygon_2< Kernel > result( points.begin(), points.end() );
 
-    if ( fixOrientation && result.orientation() == CGAL::CLOCKWISE ) {
+    if ( fixOrientation && (result.orientation() == CGAL::CLOCKWISE) ) {
         result.reverse_orientation() ;
     }
 

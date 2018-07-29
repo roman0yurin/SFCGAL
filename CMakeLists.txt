@@ -6,11 +6,16 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_C_STANDARD 11)
 
+if(WIN32)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3") #При компиляции на MinGW некоторые объектные файлы получаются слишком большими
+	set(CMAKE_CFLAGS "${CMAKE_CFLAGS} -O3")
+endif()
+
 #Папки для сборки модуля
 set(CMAKE_SFCGAL_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_SFCGAL_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 set_property(GLOBAL PROPERTY CMAKE_SFCGAL_BINARY_DIR ${CMAKE_SFCGAL_BINARY_DIR})
-set(SFCGAL_USE_STATIC_LIBS true)
+set(SFCGAL_USE_STATIC_LIBS false)
 
 set( CMAKE_DEBUG_POSTFIX "d" )
 get_property(CGAL_INCLUDE_DIRS GLOBAL PROPERTY CGAL_INCLUDE_DIRS)
@@ -58,7 +63,17 @@ if( NOT ${Boost_USE_AUTO_LINK} )
 	add_definitions( "-DBOOST_ALL_NO_LIB" )
 endif()
 
+option( Boost_USE_MULTITHREAD "boost use multithread libraries" ON )
 option( Boost_USE_STATIC_LIBS "boost use dynamic libraries" OFF )
+if(WIN32)
+	message("==============  WIN SETTINGS")
+	option( Boost_USE_MULTITHREAD "boost use multithread libraries" OFF )
+	option( Boost_USE_STATIC_LIBS "boost use dynamic libraries" ON )
+	set(Boost_USE_MULTITHREAD false)
+	set(Boost_USE_STATIC_LIBS true)
+endif()
+
+
 if( Boost_USE_STATIC_LIBS )
 	message( STATUS "Boost_USE_STATIC_LIBS=ON" )
 	add_definitions( "-DBOOST_THREAD_USE_LIB" )
@@ -68,7 +83,6 @@ else()
 	add_definitions( "-DBOOST_ALL_DYN_LINK" )
 endif()
 
-option( Boost_USE_MULTITHREAD "boost use multithread libraries" ON )
 if( ${Boost_USE_MULTITHREAD} )
 	message( STATUS "Boost_USE_MULTITHREAD=ON" )
 else()
