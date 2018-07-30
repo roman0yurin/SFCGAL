@@ -50,7 +50,6 @@ if( ${SFCGAL_WITH_GMP} )
 	target_link_libraries( sfcgal ${GMP_LIBRARIES} )
 endif( ${SFCGAL_WITH_GMP} )
 
-message("================== SFCGAL Boost_LIBRARIES ${Boost_LIBRARIES} Boost_VERSION ${Boost_VERSION}")
 target_link_libraries( sfcgal ${Boost_LIBRARIES} )
 
 if ( ${Use_precompiled_headers} )
