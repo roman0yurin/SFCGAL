@@ -6,6 +6,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_C_STANDARD 11)
 
+get_property(POSTGRES_DISTRIB_LIB_DIR GLOBAL PROPERTY  POSTGRES_DISTRIB_LIB_DIR)
+set(CMAKE_INSTALL_LIBDIR ${POSTGRES_DISTRIB_LIB_DIR})
+
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3") #При компиляции на MinGW некоторые объектные файлы получаются слишком большими
 	set(CMAKE_CFLAGS "${CMAKE_CFLAGS} -O3")
@@ -228,7 +231,6 @@ if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
       endif()
     endif()
   endif()
-  set(CMAKE_INSTALL_LIBDIR "${_LIBDIR_DEFAULT}" CACHE PATH "object code libraries (${_LIBDIR_DEFAULT})")
 endif()
 
 SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
@@ -258,9 +260,9 @@ add_subdirectory( doc )
 #-- install directories
 install(DIRECTORY ${CMAKE_SFCGAL_BINARY_DIR}/include DESTINATION .)
 
-
+get_property(POSTGRES_DISTRIB_LIB_DIR GLOBAL PROPERTY  POSTGRES_DISTRIB_LIB_DIR)
 #-- create a libtool file for sfcgal (needed by PostGIS)
-create_libtool_file( sfcgal /lib )
+create_libtool_file( sfcgal ${POSTGRES_DISTRIB_LIB_DIR} )
 
 #-- sfcgal-config
 if ( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )

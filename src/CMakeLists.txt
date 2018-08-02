@@ -33,6 +33,13 @@ else()
     ${SFCGAL_HEADERS}
     ${SFCGAL_SOURCES}
     )
+
+  # install library
+  install(
+          TARGETS
+          sfcgal
+          DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  )
 endif()
 
 add_dependencies( sfcgal copy CGAL)
@@ -67,15 +74,7 @@ if ( ${Use_precompiled_headers} )
   endif()
 endif()
 
-# install library
-install(
-	TARGETS
-	sfcgal
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	BUNDLE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+
 
 # sfcgal-osg
 if ( SFCGAL_WITH_OSG )
@@ -105,8 +104,8 @@ if ( SFCGAL_WITH_OSG )
 	TARGETS
 	sfcgal-osg
 	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	BUNDLE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	LIBRARY DESTINATION "/"
+	ARCHIVE DESTINATION "/"
+	BUNDLE DESTINATION "/"
    )
 endif()
