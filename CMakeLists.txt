@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_LIBDIR ${POSTGRES_DISTRIB_LIB_DIR})
 
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3") #При компиляции на MinGW некоторые объектные файлы получаются слишком большими
-	set(CMAKE_CFLAGS "${CMAKE_CFLAGS} -O3")
+	set(CMAKE_CFLAGS "${CMAKE_C_FLAGS} -O3")
 endif()
 
 #Папки для сборки модуля
