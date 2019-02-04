@@ -215,6 +215,7 @@ double area3D( const Geometry& g, NoValidityCheck )
     case TYPE_MULTIPOINT:
     case TYPE_MULTILINESTRING:
     case TYPE_MULTIPOLYGON:
+    case TYPE_MULTISOLID:
     case TYPE_GEOMETRYCOLLECTION:
         return area3D( g.as< GeometryCollection >() );
 
@@ -225,8 +226,7 @@ double area3D( const Geometry& g, NoValidityCheck )
         return area3D( g.as< PolyhedralSurface >() );
 
     case TYPE_SOLID:
-    case TYPE_MULTISOLID:
-        return 0 ;
+        return area3D(g.as< Solid >().exteriorShell()) ;
     }
 
     BOOST_THROW_EXCEPTION( Exception( "missing case in SFCGAL::algorithm::area3D" ) );
